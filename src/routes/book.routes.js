@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Book = require('../models/book.model')
 
-// MIDDLEWARE
+
+//* MIDDLEWARE 
 const getBook = async (req, res, next) => {
     let book;
     const { id } = req.params;
@@ -25,8 +26,8 @@ const getBook = async (req, res, next) => {
         })
     }
     res.book = book;
-    next()
-}
+    next();
+};
 
 
 // Obtener todos los libros [GET ALL]
@@ -66,13 +67,16 @@ router.post('/', async (req, res) => {
             message: error.message
         })
     }
-})
+});
 
 
+// get
 router.get('/:id', getBook, async (req, res) => {
     res.json(res.book)
-})
+});
 
+
+// put
 router.put('/:id', getBook, async (req, res) => {
     try {
         const book = res.book
@@ -88,31 +92,36 @@ router.put('/:id', getBook, async (req, res) => {
             message: error.message
         })
     }
-})
+});
 
+
+// patch
 router.patch('/:id', getBook, async (req, res) => {
-    if (!req.body.title && !req.body.author && !req.body.genre && !req.body.publication_date) {
+    if (!req.body.title && !req.body.author && !req.body.genre
+        && !req.body.publication_date) {
         res.status(400).json({
-            message: 'Al menos uno de estos campos debe ser enviado: Titulo, Autor, Genero o fecha de publicacion.'
+            message: `Al menos uno de estos campos debe ser enviado: 
+            Titulo, Autor, Genero o fecha de publicacion.`
         })
-    }
+    };
+
     try {
         const book = res.book
         book.title = req.body.title || book.title;
         book.author = req.body.author || book.author;
         book.genre = req.body.genre || book.genre;
         book.publication_date = req.body.publication_date || book.publication_date;
-
         const updateBook = await book.save()
         res.json(updateBook)
     } catch (error) {
         res.status(400).json({
             message: error.message
         })
-    }
-})
+    };
+});
 
 
+// delete
 router.delete('/:id', getBook, async (req, res) => {
     try {
         const book = res.book
@@ -127,5 +136,8 @@ router.delete('/:id', getBook, async (req, res) => {
             message: error.message
         })
     }
-})
-module.exports = router
+});
+
+
+// exports
+module.exports = router;
