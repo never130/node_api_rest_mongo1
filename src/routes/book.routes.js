@@ -40,24 +40,24 @@ router.get('/', async (req, res) => {
         }
         res.json(books)
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({
+            message: error.message
+        })
     }
-})
+});
 
 
 // Crear un nuevo libro (recurso) [POST]
 router.post('/', async (req, res) => {
     const { title, author, genre, publication_date } = req?.body
+
     if (!title || !author || !genre || !publication_date) {
         return res.status(400).json({
             message: 'Los campos titulo, autor, genero y fecha son obligatorios.'
         })
     }
-    const book = new Book(
-        {
-            title, author, genre, publication_date
-        }
-    )
+    const book = new Book({ title, author, genre, publication_date })
+
     try {
         const newBook = await book.save()
         console.log(newBook);
