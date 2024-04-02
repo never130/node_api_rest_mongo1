@@ -35,6 +35,7 @@ router.get('/', async (req, res) => {
     try {
         const books = await Book.find()
         console.log('GET ALL', books);
+
         if (books.length === 0) {
             return res.status(204).json([])
         }
@@ -50,15 +51,14 @@ router.get('/', async (req, res) => {
 // Crear un nuevo libro (recurso) [POST]
 router.post('/', async (req, res) => {
     const { title, author, genre, publication_date } = req?.body
-
     if (!title || !author || !genre || !publication_date) {
         return res.status(400).json({
             message: `Los campos titulo, autor, genero y fecha 
             son obligatorios.`
         })
     }
-    const book = new Book({ title, author, genre, publication_date })
 
+    const book = new Book({ title, author, genre, publication_date })
     try {
         const newBook = await book.save()
         console.log(newBook);
@@ -114,7 +114,7 @@ router.patch('/:id', getBook, async (req, res) => {
         book.genre = req.body.genre || book.genre;
         book.publication_date = req.body.publication_date ||
             book.publication_date;
-        
+
         const updateBook = await book.save()
         res.json(updateBook)
     } catch (error) {
