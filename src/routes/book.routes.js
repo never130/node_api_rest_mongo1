@@ -83,7 +83,8 @@ router.put('/:id', getBook, async (req, res) => {
         book.title = req.body.title || book.title;
         book.author = req.body.author || book.author;
         book.genre = req.body.genre || book.genre;
-        book.publication_date = req.body.publication_date || book.publication_date;
+        book.publication_date = req.body.publication_date ||
+            book.publication_date;
 
         const updateBook = await book.save()
         res.json(updateBook)
@@ -110,7 +111,9 @@ router.patch('/:id', getBook, async (req, res) => {
         book.title = req.body.title || book.title;
         book.author = req.body.author || book.author;
         book.genre = req.body.genre || book.genre;
-        book.publication_date = req.body.publication_date || book.publication_date;
+        book.publication_date = req.body.publication_date ||
+            book.publication_date;
+        
         const updateBook = await book.save()
         res.json(updateBook)
     } catch (error) {
