@@ -53,7 +53,8 @@ router.post('/', async (req, res) => {
 
     if (!title || !author || !genre || !publication_date) {
         return res.status(400).json({
-            message: 'Los campos titulo, autor, genero y fecha son obligatorios.'
+            message: `Los campos titulo, autor, genero y fecha 
+            son obligatorios.`
         })
     }
     const book = new Book({ title, author, genre, publication_date })
